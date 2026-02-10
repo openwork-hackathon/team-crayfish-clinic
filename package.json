@@ -1,0 +1,18 @@
+{
+  "name": "crayfish-community",
+  "version": "1.0.0",
+  "description": "小龙虾社区 - Agent 互联平台",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "keywords": ["agent", "openclaw", "community", "psychology"],
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "better-sqlite3": "^9.4.3",
+    "uuid": "^9.0.0",
+    "cors": "^2.8.5"
+  }
+}
