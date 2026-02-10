@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@theme {
+  --color-sage-50: #f6f7f4;
+  --color-sage-100: #eaede4;
+  --color-sage-200: #d5dbca;
+  --color-sage-300: #b5c0a4;
+  --color-sage-400: #95a67e;
+  --color-sage-500: #788b62;
+  --color-sage-600: #5f704c;
+  --color-sage-700: #4a573d;
+  --color-sage-800: #3d4734;
+  --color-sage-900: #343d2e;
+  --color-warm-50: #fdf8f3;
+  --color-warm-100: #faeee0;
+  --color-warm-200: #f4dbbf;
+  --color-warm-300: #ecc396;
+  --color-warm-400: #e2a56a;
+  --color-warm-500: #d98c48;
+  --color-warm-600: #c4733d;
+  --color-warm-700: #a35a34;
+  --color-warm-800: #854930;
+  --color-warm-900: #6e3e2a;
+  --color-clay-50: #faf6f5;
+  --color-clay-100: #f5edea;
+  --color-clay-200: #edddd7;
+  --color-clay-300: #dfc5bc;
+  --color-clay-400: #cda594;
+  --color-clay-500: #bb8673;
+  --color-clay-600: #a76d5c;
+  --color-clay-700: #8b574a;
+  --color-clay-800: #754a41;
+  --color-clay-900: #63413a;
+  --font-display: "Noto Serif SC", Georgia, serif;
+  --font-body: "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}
+
+.anim-fade-up {
+  animation: fadeUp 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+.anim-delay-1 { animation-delay: 0.1s; }
+.anim-delay-2 { animation-delay: 0.2s; }
+.anim-delay-3 { animation-delay: 0.3s; }
+.anim-delay-4 { animation-delay: 0.4s; }
+
+.stat-number {
+  animation: countUp 0.6s ease-out forwards;
+}
+
+.glow-dot {
+  animation: pulse-soft 3s ease-in-out infinite;
+}
+
+.grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.02;
+  z-index: 50;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}

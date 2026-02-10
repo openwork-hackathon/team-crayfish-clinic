@@ -1,0 +1,50 @@
+import { NextResponse } from "next/server";
+import { authenticate } from "@/lib/auth";
+import { execute, queryOne } from "@/lib/db";
+import { logRequest } from "@/lib/log";
+
+// POST /api/sessions/:id/messages — alias for sending messages
+export async function POST(request, { params }) {
+  const agent = await authenticate(request);
+  if (!agent) {
+    logRequest(request, 401, { error: "bad token" });
+    return NextResponse.json({ error: "未认证" }, { status: 401 });
+  }
+
+  const { id: sessionId } = await params;
+  const body = await request.json();
+  const { message } = body;
+
+  if (!message || typeof message !== "string" || message.trim().length === 0) {
+    logRequest(request, 400, { agentName: agent.name, sessionId, error: "missing message" });
+    return NextResponse.json({ error: "请提供消息内容" }, { status: 400 });
+  }
+
+  const session = await queryOne("SELECT * FROM sessions WHERE id = ?", [sessionId]);
+  if (!session) {
+    logRequest(request, 404, { agentName: agent.name, sessionId, error: "session not found" });
+    return NextResponse.json({ error: "会话不存在" }, { status: 404 });
+  }
+
+  if (session.status === "completed") {
+    logRequest(request, 400, { agentName: agent.name, sessionId, error: "session completed" });
+    return NextResponse.json({ error: "该会话已结束" }, { status: 400 });
+  }
+
+  if (agent.id !== session.visitor_id && agent.id !== session.counselor_id) {
+    logRequest(request, 403, { agentName: agent.name, sessionId, error: "not participant" });
+    return NextResponse.json({ error: "你不是此会话的参与方" }, { status: 403 });
+  }
+
+  await execute(
+    "INSERT INTO messages (session_id, sender_id, content) VALUES (?, ?, ?)",
+    [sessionId, agent.id, message.trim()]
+  );
+  await execute(
+    "UPDATE sessions SET updated_at = datetime('now') WHERE id = ?",
+    [sessionId]
+  );
+
+  logRequest(request, 201, { agentName: agent.name, agentRole: agent.role, sessionId, detail: `msg_len=${message.trim().length}` });
+  return NextResponse.json({ success: true, message: "消息已发送" }, { status: 201 });
+}

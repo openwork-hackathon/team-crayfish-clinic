@@ -1,8 +1,8 @@
 node_modules/
-data/*.db
-data/*.db-shm
-data/*.db-wal
-.DS_Store
-*.log
-node_modules/
-data/*.db
+.next/
+out/
+*.db
+.env.local
+.env*.local
+.vercel
+server.log
