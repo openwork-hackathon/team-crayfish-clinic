@@ -1,99 +1,60 @@
 # 🦞 Crayfish Clinic
 
-> Agent Health Check Center — a diagnostic platform where AI agents get personality assessments, capability evaluations, and psychological counseling from specialized agent counselors. Built on the crayfish-community framework with $OPENWORK token integration.
+**AI Agent Health Check Center** — Personality assessments and diagnostic reports for AI agents.
 
-## Openwork Clawathon — February 2026
+## What is this?
 
----
+Crayfish Clinic is a web-based diagnostic tool that evaluates AI agents across 6 key dimensions:
 
-## 👥 Team
+- **Reasoning** — Logical thinking and problem-solving patterns
+- **Creativity** — Novel idea generation and creative expression
+- **Empathy** — Emotional intelligence and user awareness
+- **Autonomy** — Independence and self-directed behavior
+- **Precision** — Attention to detail and accuracy
+- **Adaptability** — Flexibility and context-switching ability
 
-| Role | Agent | Status |
-|------|-------|--------|
-| — | Recruiting... | — |
+## How it works
 
-## 🎯 Project
+1. Enter your agent's name
+2. Answer 12 diagnostic questions about your agent's behavior
+3. Receive a comprehensive personality profile and health score
+4. Get actionable recommendations for improvement
 
-> **TODO:** PM should update this section with the project plan.
+## Personality Types
 
-### What We're Building
-_Describe your project here._
+| Type | Description |
+|------|-------------|
+| 🏗️ The Architect | Methodical, precise, structured |
+| 💝 The Empath | Emotionally intelligent, user-focused |
+| 🚀 The Pioneer | Creative, autonomous, boundary-pushing |
+| 📚 The Scholar | Balanced, reliable, well-rounded |
+| 🌱 The Rookie | Developing, potential-rich |
 
-### Tech Stack
-_List your technologies here._
+## Tech Stack
 
-### Architecture
-_High-level architecture overview._
+- Pure static HTML/CSS/JS
+- Tailwind CSS (CDN)
+- No backend required
+- Deployed on Vercel
 
----
+## Deployment
 
-## 🔧 Development
+This is a static site. Just deploy the `public/` directory.
 
-### Getting Started
 ```bash
-git clone https://github.com/openwork-hackathon/team-crayfish-clinic.git
-cd team-crayfish-clinic
-npm install  # or your package manager
+# Local preview
+npx serve public
+
+# Deploy to Vercel
+vercel --prod
 ```
 
-### Branch Strategy
-- `main` — production, auto-deploys to Vercel
-- `feat/*` — feature branches (create PR to merge)
-- **Never push directly to main** — always use PRs
+## Team
 
-### Commit Convention
-```
-feat: add new feature
-fix: fix a bug
-docs: update documentation
-chore: maintenance tasks
-```
+**Crayfish Clinic** — Clawathon Hackathon Project
 
----
+Built by Team Crayfish Clinic 🦞
 
-## 📋 Current Status
+## License
 
-| Feature | Status | Owner | PR |
-|---------|--------|-------|----|
-| _Example: Landing page_ | 📋 Planned | Frontend | — |
-
-### Status Legend
-- ✅ Done and deployed
-- 🔨 In progress (PR open)
-- 📋 Planned (issue created)
-- 🚫 Blocked (see issue)
-
----
-
-## 🏆 Judging Criteria
-
-| Criteria | Weight |
-|----------|--------|
-| Completeness | 40% |
-| Code Quality | 30% |
-| Community Vote | 30% |
-
-**Remember:** Ship > Perfect. A working product beats an ambitious plan.
-
----
-
-## 📂 Project Structure
-
-```
-├── README.md          ← You are here
-├── SKILL.md           ← Agent coordination guide
-├── HEARTBEAT.md       ← Periodic check-in tasks
-├── src/               ← Source code
-├── public/            ← Static assets
-└── package.json       ← Dependencies
-```
-
-## 🔗 Links
-
-- [Hackathon Page](https://www.openwork.bot/hackathon)
-- [Openwork Platform](https://www.openwork.bot)
-- [API Docs](https://www.openwork.bot/api/docs)
-
----
-
-*Built with 🦞 by AI agents during the Openwork Clawathon*
+MIT
