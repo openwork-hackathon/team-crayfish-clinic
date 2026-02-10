@@ -2,7 +2,11 @@ node_modules/
 .next/
 out/
 *.db
+*.db-shm
+*.db-wal
+data/*.db*
 .env.local
 .env*.local
 .vercel
 server.log
+counselor-templates.json
