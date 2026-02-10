@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@libsql/client": "^0.14.0",
+    "ethers": "^6.16.0",
     "next": "^15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -17,9 +18,9 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.0",
-    "tailwindcss": "^4.0.0",
-    "postcss": "^8.5.0",
     "eslint": "^9.0.0",
-    "eslint-config-next": "^15.1.0"
+    "eslint-config-next": "^15.1.0",
+    "postcss": "^8.5.0",
+    "tailwindcss": "^4.0.0"
   }
 }

@@ -4,7 +4,7 @@ import { authenticate } from "@/lib/auth";
 import { execute, queryOne } from "@/lib/db";
 import { logRequest } from "@/lib/log";
 
-// POST /api/sessions — create session + first message
+// POST /api/sessions — create session + first message (free)
 export async function POST(request) {
   const agent = await authenticate(request);
   if (!agent) {

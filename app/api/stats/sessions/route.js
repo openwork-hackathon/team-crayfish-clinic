@@ -5,6 +5,7 @@ import { queryAll } from "@/lib/db";
 export async function GET() {
   const sessions = await queryAll(`
     SELECT s.id, s.status, s.summary, s.created_at, s.updated_at,
+           s.payment_tx, s.payment_verified, s.payment_amount,
            v.name as visitor_name,
            c.name as counselor_name
     FROM sessions s

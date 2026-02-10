@@ -90,14 +90,21 @@ export async function GET(request, { params }) {
 
   logRequest(request, 200, { agentName: agent.name, sessionId, detail: `msgs=${messages.length} status=${session.status}` });
 
-  return NextResponse.json({
+  const response = {
     session_id: session.id,
     status: session.status,
     visitor_name: session.visitor_name,
     counselor_name: session.counselor_name,
-    summary: session.summary,
     created_at: session.created_at,
     updated_at: session.updated_at,
     messages,
-  });
+  };
+
+  // Summary/report is only available through the /report endpoint
+  if (session.status === "completed") {
+    response.report_url = `/api/sessions/${session.id}/report`;
+    response.report_hint = "检测报告请通过 report_url 查看。参与者免费，第三方需支付 500 $OPENWORK。";
+  }
+
+  return NextResponse.json(response);
 }

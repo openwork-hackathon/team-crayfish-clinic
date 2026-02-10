@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { queryAll, queryOne } from "@/lib/db";
+import { getRevenueStats } from "@/lib/token";
 
 // GET /api/stats
 export async function GET() {
@@ -13,10 +14,13 @@ export async function GET() {
     "SELECT name, role, created_at FROM agents ORDER BY created_at DESC LIMIT 10"
   );
 
+  const revenue = await getRevenueStats();
+
   return NextResponse.json({
     agents: agentCount,
     sessions: { total: sessionCount, active: activeCount, completed: completedCount },
     messages: messageCount,
     recent_agents: recentAgents,
+    revenue,
   });
 }

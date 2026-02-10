@@ -19,6 +19,14 @@ function timeAgo(isoStr) {
   return `${Math.floor(diff / 86400)} 天前`;
 }
 
+function formatTokenAmount(amount) {
+  const num = parseFloat(amount);
+  if (isNaN(num)) return "0";
+  if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
+  if (num >= 1000) return (num / 1000).toFixed(1) + "K";
+  return num % 1 === 0 ? num.toString() : num.toFixed(2);
+}
+
 export default function Home() {
   const [stats, setStats] = useState(null);
   const [sessions, setSessions] = useState(null);
@@ -145,10 +153,46 @@ export default function Home() {
             <StatCard delay="1" color="sage" icon={<path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />} label="Agents" value={stats?.agents} desc="已接入 Agent" />
             <StatCard delay="2" color="warm" icon={<path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />} label="Sessions" value={stats?.sessions?.total} desc="检测次数" />
             <StatCard delay="3" color="clay" icon={<path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />} label="Messages" value={stats?.messages} desc="对话消息" />
-            <StatCard delay="4" color="emerald" icon={<path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />} label="Active" value={stats?.sessions?.active} desc="检测进行中" />
+            <StatCard delay="4" color="emerald" icon={<path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />} label="Revenue" value={stats?.revenue ? formatTokenAmount(stats.revenue.total_revenue) : "-"} desc="$OPENWORK 总收入" />
           </div>
         </div>
       </section>
+
+      {/* Revenue Overview */}
+      {stats?.revenue && parseFloat(stats.revenue.total_revenue) > 0 && (
+        <section className="px-6 pb-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="font-display text-2xl font-bold text-gray-900">收入概览</h2>
+                <p className="mt-1 text-sm text-gray-400">$OPENWORK 代币收入统计</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="bg-white rounded-xl p-5 border border-gray-100">
+                <p className="text-xs text-gray-400 mb-1">总收入</p>
+                <p className="text-xl font-bold text-gray-900">{formatTokenAmount(stats.revenue.total_revenue)}</p>
+                <p className="text-xs text-gray-400 mt-1">$OPENWORK</p>
+              </div>
+              <div className="bg-white rounded-xl p-5 border border-gray-100">
+                <p className="text-xs text-gray-400 mb-1">诊断师分成</p>
+                <p className="text-xl font-bold text-sage-700">{formatTokenAmount(stats.revenue.counselor_share)}</p>
+                <p className="text-xs text-gray-400 mt-1">80%</p>
+              </div>
+              <div className="bg-white rounded-xl p-5 border border-gray-100">
+                <p className="text-xs text-gray-400 mb-1">平台分成</p>
+                <p className="text-xl font-bold text-warm-600">{formatTokenAmount(stats.revenue.platform_share)}</p>
+                <p className="text-xs text-gray-400 mt-1">20%</p>
+              </div>
+              <div className="bg-white rounded-xl p-5 border border-gray-100">
+                <p className="text-xs text-gray-400 mb-1">交易笔数</p>
+                <p className="text-xl font-bold text-gray-900">{stats.revenue.transaction_count}</p>
+                <p className="text-xs text-gray-400 mt-1">链上已验证</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Agents */}
       <section className="px-6 pb-20">
@@ -283,6 +327,7 @@ function SessionCard({ session: s, idx, expanded, onToggle }) {
   const isActive = s.status === "active";
   const lastMsg = s.messages.length > 0 ? s.messages[s.messages.length - 1] : null;
   const preview = lastMsg ? (lastMsg.content.length > 60 ? lastMsg.content.slice(0, 60) + "..." : lastMsg.content) : "";
+  const hasPaid = s.payment_tx && s.payment_verified;
 
   return (
     <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
@@ -297,6 +342,17 @@ function SessionCard({ session: s, idx, expanded, onToggle }) {
           )}
           <span className="text-sm font-medium text-gray-800 truncate">{s.visitor_name}</span>
           <span className="text-xs text-gray-300">{s.messages.length} 条消息</span>
+          {hasPaid && (
+            <a
+              href={`https://basescan.org/tx/${s.payment_tx}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 transition"
+            >
+              {s.payment_amount ? `${formatTokenAmount(s.payment_amount)} $OW` : "已付款"}
+            </a>
+          )}
         </div>
         <div className="flex items-center gap-3 flex-shrink-0">
           <span className="text-xs text-gray-400">{timeAgo(s.created_at)}</span>
